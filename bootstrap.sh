@@ -48,4 +48,11 @@ install 'ExecJS runtime' nodejs
 # Needed for docs generation.
 update-locale LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
+# Install Rails
+echo installing Rails
+sudo adduser vagrant root
+sudo chmod -R 775 /var/lib/gems
+sudo chmod -R 775 /usr/lib/bin
+gem install rails -N >/dev/null 2>&1
+
 echo 'all set, rock on!'
