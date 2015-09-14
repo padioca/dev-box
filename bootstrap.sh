@@ -62,10 +62,11 @@ gem install rails -N >/dev/null 2>&1
 
 #  Install node
 echo installing node.js
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.26.1/install.sh | bash
-. ~/.nvm/nvm.sh
-nvm install stable
-nvm alias default stable
+su vagrant -l -c "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.26.1/install.sh | bash"
+echo "source /home/vagrant/.nvm/nvm.sh" >> /home/vagrant/.profile
+source /home/vagrant/.profile
+su vagrant -l -c "nvm install stable"
+su vagrant -l -c "nvm alias default stable"
 
 echo installing MongoDB
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
@@ -75,6 +76,6 @@ apt-get install -y mongodb-org
 sudo service mongod start
 
 echo installing node packages
-npm install express gulp mongoose socket.io grunt bower jade mysql -N >/dev/null 2>&1
+su vagrant -l -c "npm install express gulp mongoose socket.io grunt bower jade mysql"
 
 echo 'all set, rock on!'
