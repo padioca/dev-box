@@ -12,12 +12,17 @@ apt-get -y update >/dev/null 2>&1
 
 install 'development tools' build-essential
 
+install curl curl
+
 install Ruby ruby2.1 ruby2.1-dev
 update-alternatives --set ruby /usr/bin/ruby2.1 >/dev/null 2>&1
 update-alternatives --set gem /usr/bin/gem2.1 >/dev/null 2>&1
 
 echo installing Bundler
 gem install bundler -N >/dev/null 2>&1
+
+echo installing Gems
+gem install sass bourbon neat bitters -N >/dev/null 2>&1
 
 install Git git
 install SQLite sqlite3 libsqlite3-dev
@@ -54,5 +59,23 @@ sudo adduser vagrant root
 sudo chmod -R 775 /var/lib/gems
 sudo chmod -R 775 /usr/local/bin
 gem install rails -N >/dev/null 2>&1
+
+#  Install node
+echo installing node.js
+su vagrant -l -c "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.26.1/install.sh | bash"
+echo "source /home/vagrant/.nvm/nvm.sh" >> /home/vagrant/.profile
+source /home/vagrant/.profile
+su vagrant -l -c "nvm install stable"
+su vagrant -l -c "nvm alias default stable"
+
+echo installing MongoDB
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+apt-get update
+apt-get install -y mongodb-org
+sudo service mongod start
+
+echo installing node packages
+su vagrant -l -c "npm install express gulp mongoose socket.io grunt bower jade mysql"
 
 echo 'all set, rock on!'
